@@ -1,0 +1,202 @@
+<div class="slidebar">
+    <div class="side_logo">
+        <a routerLink="/index">
+            <img src="./assets/instant-bc-images/images/bwlogo.png" alt="">
+        </a>
+    </div>
+    <nav>
+        <ul>
+            <li class="dropDown" aria-haspopup="true">
+                <a routerLink="/index">
+                    <i class="m-menu__link-icon flaticon-dashboard"></i>
+                    <span>DASHBOARD</span>
+                    <i class="fa fa-caret-up subMenu_open"></i>
+                </a>
+
+
+
+                <ul class="submenu">
+                    <li routerLinkActive="change" aria-haspopup="true">
+                        <a routerLink="/chats/" class="m-menu__link m-menu__toggle">
+                            <i class="m-menu__link-icon flaticon-chat-1"></i>
+                            <span class="m-menu__link-text">
+                                Chat
+                            </span>
+                        </a>
+                    </li>
+                    <li routerLinkActive="change" aria-haspopup="true"
+                        *ngIf="userRole == 'admin' || userRole == 'driver'">
+                        <a routerLink="/driver" class="m-menu__link">
+                            <i class="m-menu__link-icon flaticon-profile"></i>
+                            <span class="m-menu__link-text">
+                                Driver Details
+                            </span>
+                        </a>
+                    </li>
+                    <li routerLinkActive="change" aria-haspopup="true" *ngIf="userRole == 'admin'">
+                        <a routerLink="/trips" class="m-menu__link">
+                            <i class="m-menu__link-icon flaticon-transport"></i>
+                            <span class="m-menu__link-text">
+                                Completed Trips
+                            </span>
+                        </a>
+                    </li>
+                    <li routerLinkActive="change" aria-haspopup="true" *ngIf="userRole == 'superAdmin'">
+                        <a routerLink="/client" class="m-menu__link">
+                            <i class="m-menu__link-icon flaticon-settings"></i>
+                            <span class="m-menu__link-text">
+                                Clients
+                            </span>
+                        </a>
+                    </li>
+                    <li routerLinkActive="change" aria-haspopup="true" *ngIf="userRole == 'superAdmin'">
+                        <a routerLink="/subscriptions" class="m-menu__link">
+                            <i class="m-menu__link-icon flaticon-settings"></i>
+                            <span class="m-menu__link-text">
+                                Subscriptions
+                            </span>
+                        </a>
+                    </li>
+                    <li routerLinkActive="change" aria-haspopup="true" *ngIf="userRole == 'superAdmin'">
+                        <a routerLink="/referral" class="m-menu__link">
+                            <i class="m-menu__link-icon flaticon-settings"></i>
+                            <span class="m-menu__link-text">
+                                Referral
+                            </span>
+                        </a>
+                    </li>
+                    <!-- <li routerLinkActive="change"  aria-haspopup="true" *ngIf="userRole == 'superAdmin'">
+                        <a routerLink="/subscriptions" class="m-menu__link">
+                            <i class="m-menu__link-icon flaticon-settings"></i>
+                            <span class="m-menu__link-text">
+						Subscriptions
+					</span>
+                        </a>
+                    </li> -->
+                </ul>
+            </li>
+            <li class="dropDown" aria-haspopup="true" *ngIf="userRole == 'admin'">
+                <a href="javascript:void(0)">
+                    <i class="m-menu__link-icon flaticon-truck"></i>
+                    <span>VEHICLE LISTS</span>
+                </a>
+                <i class="fa fa-caret-up subMenu_open"></i>
+                <ul class="submenu">
+                    <li routerLinkActive="change" aria-haspopup="true">
+                        <a routerLink="/vehicle" class="m-menu__link">
+                            <i class="m-menu__link-icon flaticon-truck"></i>
+                            <span class="m-menu__link-text">
+                                Trucks
+                            </span>
+                        </a>
+                    </li>
+                    <li routerLinkActive="change" aria-haspopup="true" *ngIf="userRole == 'admin'">
+                        <a routerLink="/trailing-equipment"><i class="m-menu__link-icon flaticon-transport"></i>
+                            <span class="m-menu__link-text">
+                                Trailers & Dollies
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <ng-template *ngIf="userRole == 'admin' && (trial || plan =='PREMIUM');then premiumUser; else liteUser">
+            </ng-template>
+            <ng-template #premiumUser>
+                <li class="dropDown" aria-haspopup="true">
+                    <a href="javascript:void(0)">
+                        <i class="m-menu__link-icon flaticon-map-location"></i>
+                        <span>Maps</span>
+                    </a>
+                    <i class="fa fa-caret-up subMenu_open"></i>
+                    <ul class="submenu">
+                        <li routerLinkActive="change" aria-haspopup="true">
+                            <a routerLink="/maps/live-tracking" class="m-menu__link">
+                                <i class="m-menu__link-icon flaticon-route"></i>
+                                <span class="m-menu__link-text">
+                                    Live Tracking
+                                </span>
+                            </a>
+                        </li>
+                        <li routerLinkActive="change" aria-haspopup="true">
+                            <a routerLink="/maps/location-history"><i class="m-menu__link-icon flaticon-location"></i>
+                                <span class="m-menu__link-text">
+                                    Location History
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropDown" aria-haspopup="true">
+                    <a href="javascript:void(0)">
+                        <i class="m-menu__link-icon flaticon-calendar"></i>
+                        <span>Reports</span>
+                    </a>
+                    <i class="fa fa-caret-up subMenu_open"></i>
+                    <ul class="submenu">
+                        <li routerLinkActive="change" aria-haspopup="true">
+                            <a routerLink="/reporting/compliance-reporting" class="m-menu__link">
+                                <i class="m-menu__link-icon flaticon-clipboard"></i>
+                                <span class="m-menu__link-text">
+                                    Compliance reporting
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ng-template>
+
+            <ng-template #liteUser>
+                <ng-container *ngIf="userRole == 'admin'">
+                    <li class="dropDown disabledPlans" aria-haspopup="true">
+                        <a href="javascript:void(0)">
+                            <i class="m-menu__link-icon flaticon-map-location"></i>
+                            <span>Maps</span>
+                        </a>
+                        <i class="fa fa-caret-up subMenu_open"></i>
+                        <ul class="submenu">
+                            <li aria-haspopup="true">
+                                <a (click)="liteUserTrigger()" class="m-menu__link">
+                                    <i class="m-menu__link-icon flaticon-route"></i>
+                                    <span class="m-menu__link-text">
+                                        Live Tracking
+                                    </span>
+                                </a>
+                            </li>
+                            <li aria-haspopup="true">
+                                <a (click)="liteUserTrigger()" class="m-menu__link"><i
+                                        class="m-menu__link-icon flaticon-location"></i>
+                                    <span class="m-menu__link-text">
+                                        Location History
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropDown disabledPlans" aria-haspopup="true">
+                        <a href="javascript:void(0)">
+                            <i class="m-menu__link-icon flaticon-calendar"></i>
+                            <span>Reports</span>
+                        </a>
+                        <i class="fa fa-caret-up subMenu_open"></i>
+                        <ul class="submenu">
+                            <li aria-haspopup="true">
+                                <a (click)="liteUserTrigger()" class="m-menu__link">
+                                    <i class="m-menu__link-icon flaticon-clipboard"></i>
+                                    <span class="m-menu__link-text">
+                                        Compliance reporting
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ng-container>
+            </ng-template>
+        </ul>
+    </nav>
+    <div *ngIf="!loggedInFromSuperAdmin" class="logout">
+        <a routerLink="/logout">
+            <i class="fa fa-sign-out"></i>
+            <span>LOGOUT</span>
+        </a>
+    </div>
+</div>

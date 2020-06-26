@@ -1,0 +1,252 @@
+<section>
+    <div class="plan_outer d-flex" style="background-color: #f2f8ff;">
+        <!-- instant bc Form section Start -->
+        <div class="plan_form" style="width: 100%;">
+            <div class="plan_form_outer">
+                <div class="logo_img">
+                    <img src="../../../assets/instant-bc-images/images/final_sticker.png"
+                        style="margin-left: -5px;max-height: 200px;" alt="">
+                </div>
+                <div class="plan_box">
+                    <div [hidden]="logintemplate.showLoginPage">
+                        <form (ngSubmit)="f.form.valid && signin()" #f="ngForm" class="m-login__form m-form" action="">
+                            <ng-template #alertSignin></ng-template>
+                            <div class="plan_group" style="display: grid;">
+                                <label>Email Address</label>
+                                <input class="form-control_signUp " type="text" placeholder="Email" name="email"
+                                    [(ngModel)]="model.email" #email="ngModel" autocomplete="off">
+                            </div>
+                            <div class="plan_group" style="display: grid;">
+                                <label>Password</label>
+                                <input class="form-control_signUp" #showPassword type="password" placeholder="Password"
+                                    name="password" [(ngModel)]="model.password" #password="ngModel">
+                                <!-- <ng-container *ngIf="showPassword"> -->
+                                <span toggle="#password-field" #passwordfield
+                                    class="fa fa-fw fa-eye field-icon toggle-password show-password"
+                                    (click)="showPasswordFun()" style="cursor: pointer;">
+                                </span>
+                                <!-- </ng-container> -->
+                            </div>
+                            <div class="plan_group btn_next">
+                                <button [disabled]="loading"
+                                    [ngClass]="{'m-loader m-loader--right m-loader--light': loading}"
+                                    id="m_login_signin_submit" class="btn btn-blue">
+                                    Login
+                                </button>
+                            </div>
+                            <div *ngIf="noUserFoundMessage" style="margin-top: 1%;margin-left: 14%"
+                                class="m-alert m-alert--outline alert alert-danger alert-dismissible" role="alert">
+                                <span class="m-form__help" *ngIf="noUserFoundMessage">{{noUserFoundMessage}}</span>
+                            </div>
+                            <div class="row" style="margin-bottom:5%;">
+                                <div class="col">
+                                    <input type="checkbox" name="remember" [(ngModel)]="model.remember"
+                                        #remember="ngModel"> Remember me
+                                </div>
+                                <div class="col">
+                                    <a (click)="generic('forgotPassword')"
+                                        style="color:#0066b3;font-size:13px;cursor: pointer;float: right;"
+                                        id="m_login_forget_password">
+                                        Forgot Password?
+                                    </a>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div style="border-bottom: 1px solid #eee"></div>
+                                </div>
+                            </div>
+
+                        </form>
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12" style="text-align: center;margin-top: 5%;">
+                                <button id="signUpButton" class="btn btn-signup" (click)="generic('signUp')">Sign Up For
+                                    FREE </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <form [formGroup]="signnUpForm" class="m-login__form m-form" action="">
+                        <div [hidden]=logintemplate.showUserDetailOptions>
+                            <button class="btn btn-blue"
+                                style="width:40%;font-weight: 600;margin-bottom: 15px;text-align: left;"
+                                (click)="generic('backToLogin')">
+                                <i class="fa fa-arrow-circle-left" style="font-size: 20px;padding: 10px;">
+                                </i>
+                                Go Back
+
+                            </button>
+                            <ng-template #alertSignup></ng-template>
+
+
+                            <div class="plan_group" style="display: grid">
+                                <label for="fullName">Full Name</label>
+                                <input class="form-control_signUp m-input" required type="text"
+                                    placeholder="Enter Full Name" formControlName="fullname" />
+                                <span class="text-danger"
+                                    *ngIf="!signnUpForm.controls.fullname.valid && signnUpForm.controls.fullname.touched">
+                                    {{requiredAlert}}
+                                </span>
+                            </div>
+
+
+                            <div class="plan_group" style="display: grid">
+                                <label for="profilepicture">Profile Picture</label>
+                                <div class="custom-file">
+                                    <input required pid="customFile" type="file" class="custom-file-input"
+                                        id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"
+                                        (change)="fileCheck($event)" formControlName="photoURL">
+                                    <label id="uploadId" class="custom-file-label" for="inputGroupFile01"
+                                        #profileImage>Upload Profile Picture</label>
+                                </div>
+
+
+                            </div>
+
+                            <div class="plan_group" style="display: grid">
+                                <label for="email">Email Address</label>
+                                <input class="form-control_signUp m-input" required type="text"
+                                    placeholder="Enter Email Address" formControlName="email" autocomplete="off"
+                                    (blur)="checkEmailAlreadyExist($event.target.value)" />
+                                <span *ngIf="emailAddressExists" class="text-danger">*Email address already in
+                                    use.</span>
+                                <span class="text-danger"
+                                    *ngIf="!signnUpForm.controls.email.valid && signnUpForm.controls.email.touched">
+                                    {{emailAlert}}
+                                </span>
+                            </div>
+
+
+                            <div class="plan_group" style="display: grid">
+                                <label for="password">Password</label>
+                                <input class="form-control_signUp m-input" required type="password"
+                                    placeholder="Password" class="form-control" formControlName="password" />
+                                <span class="text-danger"
+                                    *ngIf="!signnUpForm.controls.password.valid && signnUpForm.controls.password.touched">
+                                    {{passwordAlert}}
+                                </span>
+                            </div>
+
+
+
+
+                            <div class="plan_group" style="display: grid">
+                                <label>Re-type Password </label>
+                                <input class="form-control_signUp m-input m-login__form-input--last" required
+                                    type="password" placeholder="Confirm Password" class="form-control"
+                                    formControlName="rPassword">
+                                <span class="text-danger"
+                                    *ngIf="!signnUpForm.controls.rPassword.valid && signnUpForm.controls.rPassword.touched">
+                                    {{confirmPasswordAlert}}
+                                </span>
+
+                            </div>
+
+
+                            <div class="plan_group" style="display: grid">
+                                <label for="subsPlan">Phone Number</label>
+                                <div style="display: flex;">
+                                    <input style="width:19%;" class="form-control_signUp m-input form-control"
+                                        type="countryCode" placeholder="+977" formControlName="countryCode">
+                                    <input style="width: 79%;margin-left: auto;"
+                                        class="form-control_signUp m-input form-control" type="phoneNumber"
+                                        placeholder="Enter Phone Number" formControlName="phoneNumber"
+                                        (blur)="checkPhoneExists(signnUpForm.controls.countryCode.value ,signnUpForm.controls.phoneNumber.value )" />
+                                </div>
+                                <span class="text-danger"
+                                    *ngIf="!signnUpForm.controls.phoneNumber.valid && signnUpForm.controls.phoneNumber.touched">
+                                    Phone Number Not Valid
+                                </span>
+                                <span class="text-danger"
+                                    *ngIf="!signnUpForm.controls.countryCode.valid && signnUpForm.controls.countryCode.touched">
+                                    Country Code Not Valid
+                                </span>
+                                <span *ngIf="phoneNumberExists" class="text-danger">*Phone Number already in
+                                    use.</span>
+                            </div>
+
+                            <div class="plan_group">
+                                <label class="">
+                                    <input type="checkbox" name="agree" required (change)="allFormFilled()"> I agree to
+                                    the
+                                    terms and conditions
+                                    <span></span>
+                                </label>
+                            </div>
+
+                            <div class="plan_group">
+                                <button #signupButton (click)="freeTrialSignup(signnUpForm)"
+                                    style="margin-bottom:15px; width:100% !important; font-weight: 700;"
+                                    class="btn btn-blue"
+                                    [ngClass]="{'m-loader m-loader--right m-loader--light': loading}"
+                                    [disabled]="formFilled">
+                                    Sign Up
+                                </button>
+                            </div>
+                        </div>
+
+
+                        <div [hidden]=logintemplate.showPaymentOptions>
+                            <button class="btn btn-blue" (click)="generic('previousButton')"
+                                style="width:40%; font-weight: 700; margin-bottom: -16px !important;">
+                                Previous
+                            </button>
+                            <div class="m-login__form-action">
+                                <button hidden [disabled]="loading"
+                                    [ngClass]="{'m-loader m-loader--right m-loader--light': loading}"
+                                    id="m_login_signup_submit"
+                                    class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air">
+                                    Sign Up
+                                </button>
+                                <button hidden [disabled]="loading" id="m_login_signup_cancel"
+                                    class="btn btn-outline-focus  m-btn m-btn--pill m-btn--custom">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <div [hidden]=logintemplate.forgottenPasswordSection>
+                        <div class="m-login__head">
+                            <h3 class="m-login__title">
+                                Forgotten Your Password?
+                            </h3>
+                            <div class="m-login__desc" style="margin-top: 10px;margin-bottom:15px;">
+                                Enter your email to reset your password
+                            </div>
+                        </div>
+                        <form (ngSubmit)="f.form.valid && forgotPass()" #f="ngForm" class="m-login__form m-form"
+                            action="">
+                            <ng-template #alertForgotPass></ng-template>
+                            <div class="form-group m-form__group">
+                                <input class="form-control m-input" type="text" placeholder="Email" name="email"
+                                    [(ngModel)]="model.email" #email="ngModel" id="m_email" autocomplete="off">
+                            </div>
+                            <div class="m-login__form-action">
+                                <button type="button" (click)="generic('cancel')" [disabled]="loading"
+                                    style="width: 48%;height:2.5rem;border:0px;" id="cancelPasswordButton"
+                                    name="cancelButton" class="btn-jRed">
+                                    Cancel
+                                </button>
+                                <button type="submit" name="resetButton" [disabled]="loading"
+                                    style="width: 48%;height:2.5rem;float:right;border:0px;"
+                                    [ngClass]="{'m-loader m-loader--right m-loader--light': loading}"
+                                    id="m_login_forget_password_submit" class="btn-blue">
+                                    Reset Password
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="track_footer" style=" padding-top: 10px;">
+            <p>© 2020 Instant-BaatChit | All Rights Reserved | <a>Privacy Policy</a></p>
+        </div>
+    </div>
+
+</section>

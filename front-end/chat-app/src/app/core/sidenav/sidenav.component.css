@@ -1,0 +1,28 @@
+li.a {
+  color: white !important;
+}
+
+.change {
+  /* background-color: #00aeef;
+   */
+  background: linear-gradient(90deg, #37518a 0%, #3a47d5 100%);
+}
+
+.disabledPlans {
+  background-color: #a09a9a !important;
+}
+.disabledPlans > a {
+  background-color: #a09a9a !important;
+  color: #d4d1d1;
+}
+.disabledPlans .submenu > li > a {
+  cursor: pointer;
+  font-size: 13px;
+  color: #dad9d9;
+  padding: 11px 20px 11px 33px;
+  margin-bottom: 0px;
+  display: block;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  font-family: Poppins !important;
+  text-transform: uppercase;
+}

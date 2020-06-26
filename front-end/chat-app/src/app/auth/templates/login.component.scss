@@ -1,0 +1,101 @@
+.m-login.m-login--1 .m-login__wrapper {
+  overflow: hidden;
+  padding: 15% 2rem 2rem 2rem;
+}
+.front-img {
+  background-image: url("/assets/demo/demo10/media/img/bg/bg-8.jpg");
+  /* background-image: url("/assets/demo/demo10/media/img/bg/banner_bg.jpg"); */
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.myLoginButton {
+  background-color: #9814f4;
+}
+.myLoginButton:hover {
+  background-color: #7811be;
+  color: white;
+}
+.btn-signup:hover {
+  background-color: #0495cc;
+  background: linear-gradient(
+    150deg,
+    rgba(2, 0, 36, 1) -8%,
+    rgba(173, 34, 37, 1) 1%,
+    rgba(0, 212, 255, 1) 150%
+  );
+}
+.btn-signup {
+  width: 100%;
+  border-radius: 3px;
+  background-color: #00aeef;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  text-align: center;
+  color: #ffffff !important;
+}
+.show-password {
+  position: inherit;
+  z-index: 99;
+  margin-left: auto;
+  margin-top: -30px;
+  padding-right: 30px;
+}
+dialog {
+  position: absolute;
+  left: 65%;
+  right: 0;
+  margin: auto;
+  border: solid;
+  padding: 1em;
+  background: white;
+  color: black;
+
+  width: -moz-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content;
+
+  height: -moz-fit-content;
+  height: -webkit-fit-content;
+  height: fit-content;
+
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 10s linear 10s, opacity 10s linear;
+  transition-timing-function: cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
+dialog[open] {
+  visibility: visible;
+  opacity: 1;
+}
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+  // background-color: rgba(255,0,51,0.4)
+}
+.fade-in {
+  opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 1s;
+  border: 1px;
+  border-radius: 5px;
+  background-color: #735261;
+  color: white;
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.closeButton {
+  font-weight: 900;
+  float: right;
+}

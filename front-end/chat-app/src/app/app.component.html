@@ -1,0 +1,43 @@
+<!-- begin::Page loader -->
+<div class="m-page-loader m-page-loader--brand m-page-loader--non-block loader-backGround"
+  style="margin-left: -80px; margin-top: -20px;">
+  <div class="m-blockui loader-backGround">
+    <span>
+      Please wait...
+    </span>
+    <span>
+      <div class="m-loader m-loader--metal"></div>
+    </span>
+  </div>
+</div>
+<!-- end::Page loader -->
+<!-- begin::Page loader -->
+<div class="m-page-loader m-page-loader--brand loader-backGround">
+  <div class="m-blockui loader-backGround">
+    <span>
+      Please wait...
+    </span>
+    <span>
+      <div class="m-loader m-loader--metal"></div>
+    </span>
+  </div>
+</div>
+<!-- end::Page Loader -->
+<!-- begin:: Page -->
+<router-outlet></router-outlet>
+
+<!-- end:: Page -->
+<!--begin::Base Scripts -->
+<!--end::Base Scripts -->
+<!--begin::Page Vendors -->
+<!--end::Page Vendors -->
+<!--begin::Page Snippets -->
+<!--end::Page Snippets -->
+<!-- begin::Page Loader -->
+<script>
+  $(window).on('load', function () {
+
+    $('body').removeClass('m-page--loading');
+  });         
+</script>
+<!-- end::Page Loader -->

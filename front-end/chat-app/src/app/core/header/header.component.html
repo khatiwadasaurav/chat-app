@@ -1,0 +1,66 @@
+<div class="header d-flex-new">
+    <div class="header_left d-flex align-items-center">
+        <div class="tiggle_menu">
+            <label>☰</label>
+        </div>
+        <div class="logout_he">
+            <a href="#">
+                <img src="./assets/instant-bc-images/logo_black.png" alt="instant-bc" class="black-logo">
+            </a>
+        </div>
+        <div class="backArrow" [hidden]="previousButtonHidden">
+
+            <a id="previousButton" (click)="goBack()" class="previous round demo1" title="Go Back"
+                style="cursor:pointer;">
+                <img src="./assets/instant-bc-images/left-arrow.png" alt="">
+                <span>Back</span>
+            </a>
+        </div>
+
+    </div>
+    <div class="he_notification" style="margin-left: 52%; margin-top:1.5%">
+        <a href="javascript:void(0)" style="font-size: 12.5px;">
+            {{this.headerMessage}}
+        </a>
+    </div>
+    <div class="header_right d-flex align-items-center">
+        <!-- <div class="he_email">
+            <a href="#">
+                <i class="fa fa-envelope"></i>
+                <span class="top_round"></span>
+            </a>
+        </div> -->
+
+        <div class="he_user">
+            <div class="user_outer">
+                <div class="m-card-user__pic">
+                    <img src="{{userPhoto?userPhoto:'./assets/app/media/img//users/user3.jpg'}}" class="m--img-rounded"
+                        alt="" /><span>{{userName}}</span>
+                    <i class="fa fa-caret-down"></i>
+                </div>
+            </div>
+            <div class="userSubmenu">
+                <div class="user_info d-flex">
+                    <div class="user_img">
+                        <img src="{{userPhoto?userPhoto:'./assets/app/media/img//users/user3.jpg'}}" alt="">
+                    </div>
+                    <div class="userName">
+                        <h5>{{userName}}</h5>
+                        <p>{{userEmail}}</p>
+                    </div>
+                </div>
+                <div class="userLink">
+                    <ul>
+                        <li><a (click)="gotoProfile()">My
+                                Profile</a></li>
+                        <li class="divider"><a routerLink="/change-password">Change
+                                Password</a></li>
+
+                        <li><a [routerLink]="path" (click)="logoutFunction()">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

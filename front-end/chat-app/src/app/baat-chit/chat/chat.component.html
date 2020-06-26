@@ -1,0 +1,166 @@
+<div class="m-content" id="fixedDiv">
+  <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet__body">
+
+      <div class="messaging">
+        <div class="inbox_msg">
+          <div class="inbox_people">
+            <div class="headind_srch" style="background: white;">
+              <div class="recent_heading">
+                <h4 style="font-size: 18px;padding: 1px;">Search All People</h4>
+              </div>
+              <div class="srch_bar">
+                <div class="stylish-input-group">
+                  <input type="text" class="search-bar" style="width: 100%;" placeholder="name or number or email"
+                    (keyup)="searchClientsData($event.target.value)">
+                  <span class="input-group-addon"
+                    style="margin-left: auto; border-bottom: 1px solid grey;position:absolute">
+                    <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                  </span> </div>
+              </div>
+            </div>
+            <div class="inbox_chat">
+              <div class="chat_list " [ngClass]='!selectedContact ? "active_chat":""' style="cursor: pointer">
+                <button class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal"
+                  data-whatever="@mdo" (click)=initializeNgModalValues()>Create Group</button>
+                <div class="chat_people" style="display:inline-block">
+                  <div class="chat_img"> </div>
+                  <div class="chat_ib" style="pointer-events: none;">
+                    <h5>All<span class="chat_date"></span></h5>
+                    <p></p>
+                  </div>
+                </div>
+              </div>
+              <ng-container *ngFor="let contact of (allClientBoolean?clientDetails:allContacts)">
+
+                <div class="chat_list "
+                  [ngClass]='selectedContact && (contact.id == selectedContact.id)?"active_chat":""'
+                  style="cursor: pointer">
+                  <div class="chat_people" (click)="selectContact(contact)">
+                    <div class="chat_img"> <img src="{{contact.profileImageUrl}}"> </div>
+                    <div class="chat_ib">
+                      <h5>{{contact.name}}<span
+                          class="chat_date">{{contact.lastMessageTime?(contact.lastMessageTime|  date:'MMM d'):'' }}</span>
+                      </h5>
+                      <p [ngClass]='contact.lastMessageStatus =="RECEIVED"?"unread_msg":""'>
+                        {{contact.lastMessage?contact.lastMessage:''}}</p>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+            </div>
+          </div>
+          <div class="mesgs">
+            <!-- <p><sub>settings</sub></p> -->
+            <i *ngIf="showSettingsButton" class="fa fa-gear" id="groupChatSettings" data-toggle="modal"
+              data-target="#exampleModal" (click)="populateData()"></i>
+            <div class="msg_history" #messageBox>
+
+              <ng-container *ngFor="let message of chatMessages">
+                <div class="incoming_msg" *ngIf="message.senderId !== selfId">
+                  <div class="incoming_msg_img" style="text-align: center;">
+                    <img src="{{selectedContact.profileImageUrl}}" alt="profile-img">
+                    <p *ngIf="message.group">
+                      <sub>{{message.senderName?message.senderName.split(" ")[0]:""}}</sub>
+                    </p>
+                  </div>
+                  <div class="received_msg">
+                    <div class="received_withd_msg">
+                      <p>{{message.message}}</p>
+                      <span class="time_date"> {{message.time | date:'h:mm a'}} |
+                        {{message.time | date:'MMMM d'}}</span>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="outgoing_msg" *ngIf="message.senderId == selfId">
+                  <div class="sent_msg">
+                    <p>{{message.message}}</p>
+                    <span class="time_date"> {{message.time | date:'h:mm a'}} |
+                      {{message.time | date:'MMMM d'}}</span>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+            <div class="type_msg">
+              <div class="input_msg_write">
+                <input type="text" (keydown.enter)="sendMessage(groupMessage)" class="write_msg"
+                  placeholder="Type a message" name="messageText" [(ngModel)]="messageText">
+                <button class="msg_send_btn" (click)="sendMessage(groupMessage)" type="button"><i
+                    class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="margin-left: auto;">Group Settings &nbsp;<i
+            class="fa fa-gear" style="font-size:28px;color:#05728f;vertical-align: middle;"></i>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Group's Name:</label>
+            <input type="text" class="form-control" id="recipient-name" [(ngModel)]="ngModelValues['name']"
+              [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">recipients:</label>
+            <!-- selecting tempContact$ to allow particular user to search from his contact list only -->
+            <ng-multiselect-dropdown [placeholder]="'select contacts'" [data]="tempContact$"
+              [(ngModel)]="ngModelValues['receiver']" [ngModelOptions]="{standalone: true}"
+              [settings]="dropdownSettings" (onSelect)="dropDownOnItemSelect($event)"
+              (onSelectAll)="dropDownOnSelectAll($event)">
+            </ng-multiselect-dropdown>
+
+          </div>
+          <div class="form-group">
+            <div class="row p-3">
+              <div class="col-8">
+                <input type="file" class="custom-file-input form-control m-input" id="customFile"
+                  placeholder="Enter Group Display Image here" name="customFile" (change)="fileCheck($event)"
+                  accept="image/*">
+                <label class="custom-file-label" for="customFile" #profilePicLabel>Enter Profile
+                  Image:</label>
+              </div>
+
+              <div class="col-4">
+
+                <img class="profileImg"
+                  [attr.src]="defaultCreateGroupType == 'update'?ngModelValues['profileImageUrl']:(selectedFile?newfile:dummyGroupImageUrl)"
+                  alt="profile image">
+                <figcaption>{{selectedFile?"Group Image":""}}
+                </figcaption>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="defaultCreateGroupType == 'update'" type="button" class="btn-default btn-danger float-left"
+          style="margin-right: auto;" id="closeTheModal" data-dismiss="modal" (click)="leaveGroupChat()">Leave
+          Group</button>
+        <button type="button" class="btn-default btn-secondary" id="closeTheModal" data-dismiss="modal">Close</button>
+        <button type="button" style="margin-left:5px; " #uploadButton class="btn-default btn-primary"
+          (click)="proceedToGroupCreation(defaultCreateGroupType)"
+          [ngClass]="{'m-loader m-loader--right m-loader--light': groupCreateLoading}">
+          {{defaultCreateGroupType =="create"? 'Create':'Update'}} Group</button>
+      </div>
+    </div>
+  </div>
+</div>
