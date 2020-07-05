@@ -46,7 +46,6 @@ export class AuthComponent implements OnInit {
     public currencyType;
     public subscriptionId: any;
     public environmentUrl = "";
-    public showNumberOfTrucks: boolean = true;
     public clientId: string;
     public subscriptionPlanId: string;
     public subscriptionObject = {
@@ -60,15 +59,9 @@ export class AuthComponent implements OnInit {
         forgottenPasswordSection: true
     };
     public formFilled: boolean = true;
-    public totalTrucks: number;
-    public totalPrice;
-    public auditorData = {};
-    public noRefferalMessage: string;
-    public checkReferealCode: boolean = false;
     public initialvalueInitialized: boolean = false;
     public emailAddressExists: boolean = false;
     public phoneNumberExists: boolean = false;
-    public buttonText = "Start Your Free Trial";
     private actionCodeSettings = {
         url: `https://${environment.firebase.loginUrl}`,
         handleCodeInApp: false
@@ -109,7 +102,6 @@ export class AuthComponent implements OnInit {
             this.generic("signUp");
         }
         localStorage.removeItem(GlobalVaribale.clientId);
-        localStorage.removeItem(GlobalVaribale.userRole);
         this._script
             .loadScripts(
                 "body",
@@ -212,7 +204,6 @@ export class AuthComponent implements OnInit {
         this._globals.userPhoto = null;
         this._globals.userDisplayName = null;
         this._globals.userClientId = null;
-        this._globals.adminDriver = null;
         this._afAuth
             .signInWithEmailAndPassword(this.model.email, this.model.password)
             .then(user => {
@@ -344,16 +335,6 @@ export class AuthComponent implements OnInit {
         );
     }
 
-    onPaymentStatus(response): void {
-        this.model = this.signnUpForm.value;
-        this.paymentResponse = response;
-        this.model.braintreeId = response.id;
-        this.model.freeTrialUser = false;
-        this.model.directDebitUser = false;
-        this.model.price = this.model.price + '';
-        this.signup();
-    }
-
     freeTrialSignup(model) {
         this.model = this.signnUpForm.value;
 
@@ -404,19 +385,6 @@ export class AuthComponent implements OnInit {
                 this.loading = false;
             });
     }
-    planSelection(plan) {
-        if (plan.name == "LITE") {
-            this.subscriptionObject.initalPrice = plan.price;
-            this.subscriptionObject.discount = plan.discount;
-        } else {
-            this.subscriptionObject.initalPrice = plan.price;
-            this.subscriptionObject.discount = plan.discount;
-        }
-        this.signnUpForm.controls.totalNumberOfTrucks.enable();
-        if (this.initialvalueInitialized) {
-            this.priceCalculation();
-        }
-    }
 
     showAlert(target) {
         this[target].clear();
@@ -425,31 +393,6 @@ export class AuthComponent implements OnInit {
         ref.changeDetectorRef.detectChanges();
     }
 
-    priceCalculation(value?) {
-        if (value) {
-            this.initialvalueInitialized = true;
-        }
-        let initialValue = +this.subscriptionObject.initalPrice;
-        let newInitialValue = +this.subscriptionObject.initalPrice;
-        let discount = this.subscriptionObject.discount;
-        let totalNumberT = value;
-
-        let calculation = 0;
-        if (totalNumberT != 1) {
-            for (let i = 1; i < totalNumberT; i++) {
-                if (i < 10) {
-                    calculation = Math.round(initialValue - (discount / 100) * initialValue);
-                }
-                newInitialValue += calculation;
-                initialValue = calculation;
-            }
-        }
-        this.totalPrice = Math.round(newInitialValue);
-        this.currencyType = "AUD";
-        this.signnUpForm["price"] = this.totalPrice.toString();
-        this.signnUpForm.get('price').setValue(this.totalPrice);
-        this.signnUpForm["totalNumberOfTrucks"] = this.totalTrucks;
-    }
     checkRefferalCode(referralCode) {
         this.signnUpForm["referralCode"] = null;
         this._globals
